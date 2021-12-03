@@ -15,6 +15,15 @@ class HelmParams {
         script.error("Values file is not found in all possible places")
     }
 
+    def addFirstExistingOptional(List possiblePaths) {
+        for (possiblePath in possiblePaths) {
+            if (script.fileExists(possiblePath)) {
+                files.add(possiblePath)
+                return
+            }
+        }
+    }
+
     def setValue(name, value) {
         params.put(name, value)
         return this
