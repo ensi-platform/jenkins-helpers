@@ -7,14 +7,20 @@ class Options {
 
     def get(name) {
         def result
-        if (name in vars) {
-            return vars[name]
+
+        result = getNamespacedEnv(name)
+        if (result != null) {
+            return result
         }
+
         result = script.env[name]
         if (result != null) {
             return result
         }
-        result = getNamespacedEnv(name)
+
+        if (name in vars) {
+            return vars[name]
+        }
         return result
     }
 
