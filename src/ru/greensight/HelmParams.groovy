@@ -29,7 +29,7 @@ class HelmParams {
         return this
     }
 
-    def buildParams(sopsImage, sopsUrl) {
+    def buildParams(sopsImage, sopsUrl, gpgKeyFile) {
         def encryptedFiles = files.findAll {
             it.endsWith(".sops.yaml")
         }
@@ -37,10 +37,11 @@ class HelmParams {
 
         if (encryptedFiles) {
             script.docker.image(sopsImage).inside('--entrypoint=""') {
+                script.sh "gpg --import ${gpgKeyFile}"
                 for (def i = 0; i < encryptedFiles.size(); i++) {
                     def encryptedFile = encryptedFiles.getAt(i)
                     def decryptedFile = encryptedFile.replaceAll(".sops.yaml",".secret.yaml")
-                    script.sh "sops --enable-local-keyservice=false --keyservice tcp://${sopsUrl} --verbose -d ${encryptedFile} > ${decryptedFile}"
+                    script.sh "sops --keyservice tcp://${sopsUrl} --verbose -d ${encryptedFile} > ${decryptedFile}"
                     decryptedFiles.put(encryptedFile, decryptedFile)
                 }
             }
