@@ -37,7 +37,7 @@ class HelmParams {
         def value = defaultValue
 
         for (file in plainFiles) {
-            valueFromFile = script.sh(script: "yq -r '${jqPath}' ${file}", returnStdout:true)
+            def valueFromFile = script.sh(script: "yq -r '${jqPath}' ${file}", returnStdout:true)
             if (valueFromFile != "null") {
                 value = valueFromFile
             }

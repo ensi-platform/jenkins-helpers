@@ -24,5 +24,12 @@ def call(registryCredsId, registryAddress, imageName, imageTag) {
             result = ("200" == statusCode)
         }
     } catch (Exception e) {}
+
+    if (result) {
+        echo "Debug: образ в registry существует"
+    } else {
+        echo "Debug: образ в registry не наден"
+    }
+
     return result
 }
