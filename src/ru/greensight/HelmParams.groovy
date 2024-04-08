@@ -29,6 +29,23 @@ class HelmParams {
         return this
     }
 
+    def findValue(jqPath, defaultValue = null) {
+        def plainFiles = files.findAll {
+            !it.endsWith(".sops.yaml")
+        }
+
+        def value = defaultValue
+
+        for (file in plainFiles) {
+            def valueFromFile = script.sh(script: "yq -r '${jqPath}' ${file}", returnStdout:true)
+            if (valueFromFile != "null") {
+                value = valueFromFile
+            }
+        }
+
+        return value
+    }
+
     def buildParams(sopsImage, sopsUrl, gpgKeyFile = null) {
         def encryptedFiles = files.findAll {
             it.endsWith(".sops.yaml")
