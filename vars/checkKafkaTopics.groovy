@@ -2,7 +2,7 @@
 
 def call(appImage, connectionParams, missedTopicsFile) {
     docker.image(appImage).inside('--entrypoint=""') {
-        sh """
+        sh(script: """
         ${connectionParams}
         cmd=\$(php /var/www/artisan list | grep 'kafka:find-not-created-topics')
         if [ "\${cmd}" != "" ]; then
@@ -11,6 +11,6 @@ def call(appImage, connectionParams, missedTopicsFile) {
         else
             echo 'Сервис не имеет команды kafka:find-not-created-topics'
         fi
-        """
+        """, returnStatus: true)
     }
 }
