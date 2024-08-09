@@ -21,7 +21,7 @@ def createDatabase(host, username, password, dbName, port = "5432") {
     sh(script: createDbScript)
 }
 
-def call(psqlImage, host, username, password, dbName, body, port = "5432") {
+def call(psqlImage, host, username, password, dbName, port = "5432", body) {
     docker.image(psqlImage).inside('--entrypoint=""') {
         dropDatabasesByPrefix(host, username, password, dbName, port )
         createDatabase(host, username, password, dbName, port)
