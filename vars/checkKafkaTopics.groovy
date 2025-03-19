@@ -13,7 +13,7 @@ def call(appImage, connectionParams, missedTopicsFile) {
                 php /var/www/artisan kafka:find-not-created-topics
             fi
         else
-            echo 'Сервис не имеет команды kafka:find-not-created-topics'
+            echo 'Service does not have command kafka:find-not-created-topics'
         fi
         """, returnStatus: true)
     }
