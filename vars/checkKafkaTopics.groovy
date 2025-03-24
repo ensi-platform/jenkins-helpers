@@ -10,7 +10,7 @@ def call(appImage, connectionParams, missedTopicsFile) {
                 if [ ! -f "${missedTopicsFile}" ]; then
                     touch "${missedTopicsFile}"
                 fi
-                php /var/www/artisan kafka:find-not-created-topics --file="${missedTopicsFile}"
+                php /var/www/artisan kafka:find-not-created-topics --file="${missedTopicsFile}" > ${missedTopicsFile}
                 cat "${missedTopicsFile}"
             else
                 php /var/www/artisan kafka:find-not-created-topics
