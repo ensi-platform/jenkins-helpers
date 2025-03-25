@@ -9,7 +9,7 @@ def call(appImage, connectionParams, missedTopicsFile) {
             if [ ! -f "${missedTopicsFile}" ]; then
                 touch "${missedTopicsFile}"
             fi
-            php -d error_reporting="E_ALL & ~E_DEPRECATED" /var/www/artisan kafka:find-not-created-topics --file=${missedTopicsFile} 2>/dev/null
+            php /var/www/artisan kafka:find-not-created-topics --file=${missedTopicsFile}
             cat ${missedTopicsFile}
         else
             echo 'Service does not have command kafka:find-not-created-topics'
