@@ -6,8 +6,9 @@ def call(appImage, connectionParams, missedTopicsFile) {
         ${connectionParams}
         cmd=\$(php /var/www/artisan list | grep 'kafka:find-not-created-topics')
         if [ "\${cmd}" != "" ]; then
-            php -d error_reporting="E_ALL & ~E_DEPRECATED" /var/www/artisan kafka:find-not-created-topics --file=${missedTopicsFile} > "script-output.txt"
+            php /var/www/artisan kafka:find-not-created-topics --file=${missedTopicsFile} > "script-output.txt"
             cat ${missedTopicsFile}
+            cat "script-output.txt"
         else
             echo 'Service does not have command kafka:find-not-created-topics'
         fi
