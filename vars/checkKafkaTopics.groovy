@@ -6,9 +6,6 @@ def call(appImage, connectionParams, missedTopicsFile) {
         ${connectionParams}
         cmd=\$(php /var/www/artisan list | grep 'kafka:find-not-created-topics')
         if [ "\${cmd}" != "" ]; then
-            if [ ! -f "${missedTopicsFile}" ]; then
-                touch "${missedTopicsFile}"
-            fi
             php /var/www/artisan kafka:find-not-created-topics --file=${missedTopicsFile}
             cat ${missedTopicsFile}
         else
